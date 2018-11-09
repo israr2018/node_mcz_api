@@ -8,17 +8,21 @@ var routes=function(CarMakes)
     carMakesRouter.route('/')
     .post(function (req,res) {
     
-        var carMakes=new CarMakes(req.body);
-        carMakes.save();
-        console.log(carMakes);
-       
-         res.status(201).send(carMakes);
-        // res.send(CarMakes);
- 
+        const carMakes=new CarMakes(req.body);
+        console.log(`req.body.car_make:${req.body.car_make}`);
+        
+        CarMakes.create(carMakes,function(err,result){
+            if(err){
+                console.log(`error:${err}`);
+                res.status(500).json({message:"Internal Server Error"});
+            }
+            else{
+                console.log("New Car make is successfully created");
+                res.status(201).json({_id:result._id,car_make:result.car_make});
+            }
+        });
     })
     .get(function (req,res) {
-        
-
         
        // console.log(" get method is called");
         var query={};
@@ -28,15 +32,16 @@ var routes=function(CarMakes)
       
        // res.send(resJson);
       CarMakes.find(query,function (err,carMakes) {
-          if(!err)
+         // return res.status(501).json({"message":"error"});
+           if(!err)
            {
             res.status(200).json(carMakes);
-            console.log(carMakes);
+            
            } 
        });
     });
     carMakesRouter.use('/:carMakesId', function(req,res,next){
-        console.log(req.params.carMakesId);
+        console.log("middleware getting parameters:"+req.params.carMakesId);
         CarMakes.findById(req.params.carMakesId, function(err,carMakes){
             if(err)
                 res.status(500).send(err);
@@ -71,17 +76,43 @@ var routes=function(CarMakes)
 
     })
     .put(function(req,res){
-        req.CarMakes.Title = req.body.Title;
-        req.CarMakes.Author = req.body.Author;
-        req.CarMakes.Price = req.body.Price;
-        req.CarMakes.Genere = req.body.Genere;
-        req.CarMakes.save(function(err){
-            if(err)
-                res.status(500).send(err);
-            else{
-                res.json(req.CarMakes);
+      const _id= req.params.carMakesId;
+      console.log(`_id:${_id}`);
+      if(_id){
+        CarMakes.findById(_id,function(err1,make){
+            if(err1){
+                res.status(500).json({
+                    "message":"Internal Server Error"
+                })
             }
+            else{
+                make.car_make=req.body.car_make;
+                console.log(`req.body.car_make:${req.body.car_make}`)
+                make.save(function(err2,result){
+                    if(err2){
+                        res.status(501).json({
+                            "message":"Internal Server Error"
+                        })
+                    }
+                    else{
+                        console.log("Car Make is updated Successfully");
+                        res.status(200).json({
+                            
+                                "message":"Car Make updated successfully"
+                            }
+                    );
+                    }
+                   })
+            }
+
         });
+      }
+      else{
+          res.status(404).json({
+            "message":"Car Make  does not exists"
+          })
+      }
+
     })
     .patch(function(req,res){
         if(req.body._id)
@@ -101,7 +132,7 @@ var routes=function(CarMakes)
         });
     })
     .delete(function(req,res){
-        req.CarMakes.remove(function(err){
+        req.carMakes.remove(function(err){
 
             if(err){
 
@@ -116,11 +147,7 @@ var routes=function(CarMakes)
 
     })
   
-    
 return carMakesRouter;
 }
-
-
-
 
 module.exports=routes;

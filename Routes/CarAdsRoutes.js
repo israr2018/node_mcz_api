@@ -40,10 +40,15 @@ var routes = function (CarAds) {
             var varification_code = sms_service.generate_code();
 
             carAd.varification_code = varification_code;
+            console.log("varification code=="+varification_code);
             var message = sms_service.create_message(varification_code);
-
-            sms_service.send_sms(carAd.contact_number, message, "MBZ");
-
+            try{
+                sms_service.send_sms(carAd.contact_number, message, "MBZ");  
+            }
+            catch(error){
+                console.log("error");
+            }
+           
             /*  formData.append("car_price",  this.model.car_price);
                    formData.append("car_km_driven",  this.model.km_driven);
                    formData.append("car_engine_type",  this.model.car_engine_type);
@@ -233,9 +238,7 @@ var routes = function (CarAds) {
                         {message:"Could not update the Car Ad",
                         status_code:1
                     
-                    
                     }
-                    
                     
                     );
                    }
@@ -254,7 +257,6 @@ var routes = function (CarAds) {
                 });
             }
         });
-
 
     });
 

@@ -15,11 +15,11 @@ var routes = function (User) {
         query.email=req.body.email;
         User.findOne(query,function (err, result) {
             if (err) {
-                return res.status(501).send(
+                return res.status(200).send(
                     {
                         "status":501,
-                        "message":"Internal Server Error",
-                        "data":error
+                        "message":err,
+                        "data":err
     
                     }
 
@@ -36,9 +36,9 @@ var routes = function (User) {
 
             }
           
-
             console.log("result email",result.email);
             console.log("result password",result.password);
+            console.log(`passsword:${req.body.password}`);
             if(!bcrypt.compareSync(req.body.password,result.password))
             {
             return res.status(200).send({
@@ -60,7 +60,6 @@ var routes = function (User) {
                 "message": "Successfully athenticated",
                 "token": token,
                 "status":200
-
 
             });
            
@@ -92,12 +91,7 @@ var routes = function (User) {
   
     });
     
-
-
-
     return authRouter;
 };
-
- 
 
 module.exports = routes;

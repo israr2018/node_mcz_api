@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 // car make schema
 
-
 // create car_add schema
 const CarAdsSchema = new Schema({
     // car_model_id:{type: Schema.Types.ObjectId, ref: 'CarModels'},
@@ -11,7 +10,7 @@ const CarAdsSchema = new Schema({
         default:false
     },
     car_price: {
-        type: String
+        type: Number
     },
     contact_number: {
         type: String
@@ -65,6 +64,5 @@ const CarAdsSchema = new Schema({
     }
 
 });
-
 
 module.exports = mongoose.model('CarAds', CarAdsSchema, 'CarAds');
