@@ -12,10 +12,10 @@ console.log("Successfully connected to the database.")
 },(error)=>{
 console.log(`Could not connect to database something goes wrong:${error}`);
 });
-// var  CarAds=require('./models/CarAds');
-// var  CarMakes=require('./models/CarMakes');
-// var  CarModels=require('./models/CarModels');
-// var  UserModel=require('./models/UserModel')
+var  CarAds=require('./models/CarAds');
+var  CarMakes=require('./models/CarMakes');
+var  CarModels=require('./models/CarModels');
+var  UserModel=require('./models/UserModel')
 
 // app.use('/uploads',express.static('uploads'));
 // app.use(bodyParser.urlencoded({extended:true}));
