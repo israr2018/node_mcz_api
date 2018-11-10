@@ -17,7 +17,7 @@ var app=express();
 // var  CarModels=require('./models/CarModels');
 // var  UserModel=require('./models/UserModel')
 
-// app.use('/uploads',express.static('uploads'));
+app.use('/uploads',express.static('uploads'));
 // app.use(bodyParser.urlencoded({extended:true}));
 // app.use(bodyParser.json());
 
