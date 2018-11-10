@@ -17,9 +17,9 @@ var  CarMakes=require('./models/CarMakes');
 var  CarModels=require('./models/CarModels');
 var  UserModel=require('./models/UserModel')
 
-// app.use('/uploads',express.static('uploads'));
-// app.use(bodyParser.urlencoded({extended:true}));
-// app.use(bodyParser.json());
+app.use('/uploads',express.static('uploads'));
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
 
 // var carAdsRouter=require('./Routes/CarAdsRoutes')(CarAds);
 // var carMakesRouter=require('./Routes/CarMakesRoutes')(CarMakes);
