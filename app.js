@@ -1,17 +1,17 @@
-// const config = require('./config/index');
+const config = require('./config/index');
 var express=require('express');
 var app=express();
-// var cors=require('cors');
-// app.use(cors({credentials: true, origin: true}));
+var cors=require('cors');
+app.use(cors({credentials: true, origin: true}));
 
 // //const logger = require('morgan');
-// var bodyParser=require('body-parser');
-// var mongoose=require('mongoose');
-// var db=mongoose.connect(config.database.connection).then(()=>{
-// console.log("Successfully connected to the database.")
-// },(error)=>{
-// console.log(`Could not connect to database something goes wrong:${error}`);
-// });
+var bodyParser=require('body-parser');
+var mongoose=require('mongoose');
+var db=mongoose.connect(config.database.connection).then(()=>{
+console.log("Successfully connected to the database.")
+},(error)=>{
+console.log(`Could not connect to database something goes wrong:${error}`);
+});
 // var  CarAds=require('./models/CarAds');
 // var  CarMakes=require('./models/CarMakes');
 // var  CarModels=require('./models/CarModels');
