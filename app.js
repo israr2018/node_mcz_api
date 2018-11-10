@@ -21,10 +21,10 @@ app.use('/uploads',express.static('uploads'));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
-// var carAdsRouter=require('./Routes/CarAdsRoutes')(CarAds);
-// var carMakesRouter=require('./Routes/CarMakesRoutes')(CarMakes);
-// var carModelsRouter=require('./Routes/CarModelsRoutes')(CarModels);
-// var authRouter=require('./Routes/authRoute')(UserModel);
+var carAdsRouter=require('./Routes/CarAdsRoutes')(CarAds);
+var carMakesRouter=require('./Routes/CarMakesRoutes')(CarMakes);
+var carModelsRouter=require('./Routes/CarModelsRoutes')(CarModels);
+var authRouter=require('./Routes/authRoute')(UserModel);
 // app.use("/api/CarAds",carAdsRouter);
 // app.use("/api/CarMakes",carMakesRouter);
 // app.use("/api/CarModels",carModelsRouter);
