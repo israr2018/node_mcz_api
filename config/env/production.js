@@ -3,7 +3,7 @@ const config = {
     ACAO:"https://malakandcarzone.herokuapp.com",
     database: {
       debug: false,
-      connection:'mongodb://israr.mcz:Computer2018#@ds157223.mlab.com:57223/mcz_db'
+      connection:'mongodb://israr.mcz:Computer2018@ds157223.mlab.com:57223/mcz_db'
      
     },
     logger: {
