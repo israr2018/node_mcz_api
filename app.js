@@ -16,7 +16,7 @@ var  CarAds=require('./models/CarAds');
 var  CarMakes=require('./models/CarMakes');
 var  CarModels=require('./models/CarModels');
 var  UserModel=require('./models/UserModel')
-var port=process.env.PORT||3000;
+var port=process.env.PORT||8080;
 app.use('/uploads',express.static('uploads'));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
