@@ -14,9 +14,8 @@ var routes = function (CarAds) {
     carAdRouter
         .route("/")
         .post(upload.array("car_image", 12), function (req, res) {
-            console.log("file", req.files);
-            //  console.log(req.body.car_description);
-            console.log("data in body", req.body);
+            
+           
             const carAd = new CarAds(req.body);
 
             req.files.forEach(element => {
@@ -40,13 +39,13 @@ var routes = function (CarAds) {
             var varification_code = sms_service.generate_code();
 
             carAd.varification_code = varification_code;
-            console.log("varification code=="+varification_code);
+         
             var message = sms_service.create_message(varification_code);
             try{
                 sms_service.send_sms(carAd.contact_number, message, "MBZ");  
             }
             catch(error){
-                console.log("error");
+                
             }
            
             /*  formData.append("car_price",  this.model.car_price);
@@ -115,10 +114,7 @@ var routes = function (CarAds) {
             });
         })
         .put(function (req, res) {
-            console.log("put method is get called");
-            console.log("ad Id " + req.params.adId);
-
-            // var ad_id=req.param.adId;
+          
             if (!req.params.adId) {
                 return res.status(404).json({
                     message: "Car Ad with id:" + req.params.adId + " could not found"
@@ -132,7 +128,7 @@ var routes = function (CarAds) {
                     });
                 }
                 if (ad) {
-                    //ad.car_model_year=req.body.car_model_year;
+                   
                     (ad.is_active = req.body.is_active),
                     (ad.car_model_year = req.body.car_model_year),
                     (ad.car_make = {
@@ -145,10 +141,11 @@ var routes = function (CarAds) {
                     (ad.car_km_driven = req.body.car_km_driven),
                     (ad.car_transmission_type = req.body.car_transmission_type),
                     (ad.car_engine_capacity = req.body.car_engine_capacity),
-                    (ad.car_engine_type = req.body.car_engine_type);
-
+                    (ad.car_engine_type = req.body.car_engine_type),
+                    (ad.contact_number=req.body.contact_number),
+                    (ad.original_number=req.body.original_number),
                     ad.is_active = req.body.is_active;
-
+                    
                     ad.save(function (error, updatedAd) {
                         if (error) {
                             return res.status(401).json({
@@ -191,7 +188,7 @@ var routes = function (CarAds) {
                     images.forEach(x => {
                         fs.unlink("uploads/" + x, function (err) {
                             if (err) {
-                                console.log("file could not deleted", err);
+                                
                                 return res.status(200).json({
                                     message: err
                                 });
@@ -200,7 +197,7 @@ var routes = function (CarAds) {
                     });
                     car_ad.remove(function (err, car_ad) {
                         if (err) {
-                            console.log("Car Ad has been deleted");
+                            
                             return res.status(200).json({
                                 message: "error in deleting"
                             });
@@ -215,14 +212,14 @@ var routes = function (CarAds) {
             });
         });
     carAdRouter.route("/varify_number/:code").get(function (req, res) {
-       console.log(" varify number route is called");
+       
         var code = req.params.code;
-        console.log("code",code);
+        
         CarAds.findOne({
             varification_code: code
         }, function (error, ad) {
             if (error) {
-                console.log("error occured",error);
+                
                 return res.send(500).json({
                     message: "Internal Server Error",
                     status_code:500
@@ -242,7 +239,7 @@ var routes = function (CarAds) {
                     
                     );
                    }
-                   console.log("add is upated");
+                   
                    return res.status(200).json({
                        message:"Number is successfully varified",
                        status_code:1
@@ -250,7 +247,7 @@ var routes = function (CarAds) {
                     });
                 });
             } else {
-                console.log("could not find the ad");
+                
                 return res.status(200).json({
                     message: "Number could not be varified.Invalid code",
                     status_code:0

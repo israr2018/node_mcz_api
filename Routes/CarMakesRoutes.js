@@ -9,22 +9,22 @@ var routes=function(CarMakes)
     .post(function (req,res) {
     
         const carMakes=new CarMakes(req.body);
-        console.log(`req.body.car_make:${req.body.car_make}`);
+        
         
         CarMakes.create(carMakes,function(err,result){
             if(err){
-                console.log(`error:${err}`);
+                
                 res.status(500).json({message:"Internal Server Error"});
             }
             else{
-                console.log("New Car make is successfully created");
+                
                 res.status(201).json({_id:result._id,car_make:result.car_make});
             }
         });
     })
     .get(function (req,res) {
         
-       // console.log(" get method is called");
+       // 
         var query={};
         if(req.query._id){
            query._id=req.query._id;
@@ -40,14 +40,16 @@ var routes=function(CarMakes)
            } 
        });
     });
+    // middleware for getting  car make based on car_make_id
+    //api/carmakes/ace9lllollle
     carMakesRouter.use('/:carMakesId', function(req,res,next){
-        console.log("middleware getting parameters:"+req.params.carMakesId);
+        
         CarMakes.findById(req.params.carMakesId, function(err,carMakes){
             if(err)
                 res.status(500).send(err);
             else if(carMakes)
             {
-                req.carMakes = carMakes;
+                req.CarMakes = carMakes;
                 next();
             }
             else
@@ -60,59 +62,32 @@ var routes=function(CarMakes)
     carMakesRouter.route('/:carMakesId')
     .get(function(req,res){
 
-      //  res.json(req.carMakes);
-
-      CarMakes.findById(req.params.carMakesId, function(err,carMakes){
-        if(err)
-            res.status(500).send(err);
-        else 
-        {
-            //req.carMakes = carMakes;
-            //next();
-            res.status(200).json(carMakes);
-        }
+      return res.send(200).json(req.CarMake);
        
-    });
-
     })
+
+  
     .put(function(req,res){
-      const _id= req.params.carMakesId;
-      console.log(`_id:${_id}`);
-      if(_id){
-        CarMakes.findById(_id,function(err1,make){
-            if(err1){
-                res.status(500).json({
+
+        req.CarMake.car_make=req.body.car_make;
+        
+        req.CarMake.save(function(err2,result){
+            if(err2){
+                res.status(501).json({
                     "message":"Internal Server Error"
                 })
             }
             else{
-                make.car_make=req.body.car_make;
-                console.log(`req.body.car_make:${req.body.car_make}`)
-                make.save(function(err2,result){
-                    if(err2){
-                        res.status(501).json({
-                            "message":"Internal Server Error"
-                        })
+                
+                res.status(200).json({
+                    
+                        "message":"Car Make updated successfully"
                     }
-                    else{
-                        console.log("Car Make is updated Successfully");
-                        res.status(200).json({
-                            
-                                "message":"Car Make updated successfully"
-                            }
-                    );
-                    }
-                   })
+            );
             }
+           })
 
-        });
-      }
-      else{
-          res.status(404).json({
-            "message":"Car Make  does not exists"
-          })
-      }
-
+      
     })
     .patch(function(req,res){
         if(req.body._id)
@@ -132,7 +107,7 @@ var routes=function(CarMakes)
         });
     })
     .delete(function(req,res){
-        req.carMakes.remove(function(err){
+        req.CarMakes.remove(function(err){
 
             if(err){
 

@@ -15,6 +15,10 @@ const CarAdsSchema = new Schema({
     contact_number: {
         type: String
     },
+    original_number:{
+
+        type:String
+    },
     varification_code:{
 
         type:Number,

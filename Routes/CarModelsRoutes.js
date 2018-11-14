@@ -9,67 +9,88 @@ var routes=function(CarModels)
     .post(function (req,res) {
     
         var carModel=new CarModels(req.body);
-        carModel.save();
+        carModel.save(function(error,newCarModel){
+
+            if(!error){
+
+               res.status(201).send(newCarModel);
+
+
+            }
+            else{
+
+                res.status(500).send("Internal Server error occure while adding new car model");
+
+            }
+
+
+        });
 
         
-        console.log(carModel);
-       
-         res.status(201).send(carModel);
-        // res.send(CarAds);
+        
  
     })
     .get(function (req,res) {
-        
+      var query={};
+      if(req.query.car_make_id){
 
-        
-       // console.log(" get method is called");
-        var query={};
-        if(req.query.Price){
-           query.Price=req.query.Price;
-        }
-      
-       // res.send(resJson);
+        query.car_make_id=req.query.car_make_id;
+      }
       CarModels.find(query,function (err,carModels) {
           if(!err)
            {
             res.status(200).json(carModels);
-            console.log(carModels);
+            
            } 
+           else{
+
+            res.status(500).send(err);
+
+           }
        });
     });
-
-    carModelsRouter.use('/:carModelsId', function(req,res,next){
+    carModelsRouter.use('/:model_id', function(req,res,next){
        
-        CarModels.find({car_make_id:req.params.carModelsId}, function(err,carModel){
+       //remember the find method return arrary 
+        CarModels.findById({_id:req.params.model_id}, function(err,carModel){
             if(err)
+            {
                 res.status(500).send(err);
-            else if(carModel)
+
+            }
+            else  
             {
-                req.carModel = carModel;
+                //if the array is not empty
+                if(carModel){
+                
+                req.CarModel = carModel;
                 next();
+                }
+                else{
+                    
+                    res.status(404).send('no CarModel was  found');
+                }
             }
-            else
-            {
-                res.status(404).send('no CarModel was  found');
-            }
+            
         });
     });
+    
+    
     carModelsRouter.route('/:carModelsId')
     .get(function(req,res){
 
-        res.json(req.carModel);
+        res.status(200).send(req.CarModel);
 
     })
     .put(function(req,res){
-        req.CarModel.Title = req.body.Title;
-        req.CarModel.Author = req.body.Author;
-        req.CarModel.Price = req.body.Price;
-        req.CarModel.Genere = req.body.Genere;
+        req.CarModel.car_model_name = req.body.car_model_name;
+        
+        
         req.CarModel.save(function(err){
             if(err)
                 res.status(500).send(err);
             else{
-                res.json(req.CarAds);
+                res.json(req.CarModel);
             }
         });
     })
@@ -91,7 +112,7 @@ var routes=function(CarModels)
         });
     })
     .delete(function(req,res){
-        req.CarAds.remove(function(err){
+        req.CarModel.remove(function(err){
 
             if(err){
 
@@ -104,8 +125,16 @@ var routes=function(CarModels)
 
         })
 
-    })
-  
+    });
+  carModelsRouter.use('/ByMakeId/:make_id',function(req,res){
+    
+    res.send(200).json("ok");
+  });
+    carModelsRouter.get('/ByMakeId/:make_id',function(req,res){
+        return res.status(200).send("Hellow World");
+
+    });
+    
     
 return carModelsRouter;
 }

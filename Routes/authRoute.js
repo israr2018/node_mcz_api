@@ -72,6 +72,7 @@ var routes = function (User) {
 
         var email=req.body.email;
         var pwd=req.body.password;
+        console.log("pwd:"+pwd);
         var salt=bcrypt.genSaltSync(10);
         var encrPwd = bcrypt.hashSync(pwd, salt);
 
