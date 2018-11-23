@@ -35,7 +35,8 @@ var routes = function (CarAds) {
             carAd.car_model_year = req.body.car_model_year;
             carAd.car_transmission_type = req.body.car_transmission_type;
             carAd.car_engine_capacity = req.body.car_engine_capacity;
-
+            carAd.car_registration_type=req.body.car_registration_type;
+            
             var varification_code = sms_service.generate_code();
 
             carAd.varification_code = varification_code;

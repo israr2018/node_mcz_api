@@ -44,12 +44,12 @@ var routes=function(CarMakes)
     //api/carmakes/ace9lllollle
     carMakesRouter.use('/:carMakesId', function(req,res,next){
         
-        CarMakes.findById(req.params.carMakesId, function(err,carMakes){
+        CarMakes.findById(req.params.carMakesId, function(err,carMake){
             if(err)
                 res.status(500).send(err);
-            else if(carMakes)
+            else if(carMake)
             {
-                req.CarMakes = carMakes;
+                req.CarMake = carMake;
                 next();
             }
             else

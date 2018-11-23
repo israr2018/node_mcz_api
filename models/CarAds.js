@@ -65,6 +65,10 @@ const CarAdsSchema = new Schema({
             type: String
         }
 
+    },
+    car_registration_type:{
+
+        type:String
     }
 
 });
