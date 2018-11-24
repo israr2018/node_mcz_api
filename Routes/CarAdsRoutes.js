@@ -185,33 +185,39 @@ var routes = function (CarAds) {
                     });
                 }
                 if (car_ad) {
+
+                    // first delete all the car images from the file system
                     var images = car_ad.car_image;
                     images.forEach(x => {
                         fs.unlink("uploads/" + x, function (err) {
                             if (err) {
                                 
-                                return res.status(200).json({
-                                    message: err
-                                });
+                                // return res.status(200).json({
+                                //     message: err
+                               // });
                             }
-                        });
-                    });
-                    car_ad.remove(function (err, car_ad) {
+                        })});  
+                   
+                    // remove the document from the database
+                    car_ad.remove(function (err,car_ad2) {
                         if (err) {
                             
                             return res.status(200).json({
                                 message: "error in deleting"
                             });
                         }
-                        return res
-                            .status(200)
-                            .json({
+                        else
+                        {
+                        return res.status(200).json({
                                 message: " Car Ad has been deleted"
-                            });
-                    });
-                }
-            });
-        });
+                        });
+                         
+                        }
+                   
+                }); 
+            }
+        })})
+             
     carAdRouter.route("/varify_number/:code").get(function (req, res) {
        
         var code = req.params.code;
