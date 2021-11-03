@@ -1,0 +1,8 @@
+#ignore node_modules
+node_modules/
+#ignore vs code file
+.idea
+#ignore the files inside the uploads folder.
+uploads/*
+node_modules
+
